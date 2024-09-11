@@ -1,0 +1,621 @@
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #E9E6FF;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+header {
+  background-color: #565254;
+  font-family: Cascadia Code;
+  font-size: 26px;
+  color: #C19AB7;
+  padding: 2px;
+  margin-top: -10px;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: 1px;
+  font-family: Felix Titling;
+  color: #333;
+}
+.text{
+  margin-top: 180px;
+  margin-bottom: 36px;
+  padding: 20px;
+  text-align: center;
+}
+
+p {
+  font-size: 34px;
+  font-family: sans-serif;
+  margin-bottom: 20px;
+}
+
+.encode-container {
+  margin-top: 180px;
+  text-align: center;
+}
+
+.decode-container{
+  margin-top: 180px;
+  margin-bottom: 81px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #A0EADE;
+  font-family: Rockwell;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+.li:hover {
+  text-decoration: underline;
+}
+
+.p2{
+  color: #88D18A;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.input-row div {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.input-row div:last-child {
+  margin-right: 0;
+
+}
+
+.input-row label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.input-row input[type="file"] {
+  margin-bottom: 10px;
+  margin-left: 35%;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.decode-container{
+  overflow-x: hidden;
+}
+
+.decode-container input[type="file"] {
+  margin-bottom: 40px;
+  margin-left: 42%;
+  display: flexbox;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.input-row input[type="text"] {
+  width: 60%;
+  margin-left: -10px;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+}
+
+
+.file-input-container,
+.message-input-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.file-input-container input,
+.message-input-container input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+img {
+  margin-top: 20px;
+  max-width: 100%;
+  max-height: 360px;
+  height: auto;
+  border: 5px solid #ccc;
+}
+.encode-img{
+  font-size: 20px;
+  display: block;
+  text-decoration: none;
+}
+.encode-img:hover{
+  text-decoration: underline;
+}
+.result-container {
+  margin-top: 20px;
+  text-align: center;
+}
+h3{
+  position: absolute;
+  top: -15px;
+  margin-left: 50px;
+  font-family: Rakkas;
+  font-size: 26px;
+  font-weight: 400;
+}
+.steganography-images-container {
+  position: relative;
+  bottom: -40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #D8D4F2;
+  border-top: 2px solid #ccc;
+  margin-top: 40px;
+  height: 20%;
+}
+
+.steganography-image {
+  width: 150px;
+  height: auto;
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn{
+  padding: 10px 20px;
+  font-size: 22px;
+  cursor: pointer;
+  border: solid black 2px;
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: wheat;
+}
+
+.steganography-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+.h3{
+  position: relative;
+  margin-bottom: -15px;
+  left: -25px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: 26px;
+}
+
+
+.login-container {
+  width: 300px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 110px;
+  margin-bottom: 30px;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;  
+  margin-top: 10px;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  padding: 10px;
+  margin-left: -20px;
+  margin-right: 60px;
+  margin-bottom: 15px;
+  border: 3px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-container button {
+  padding: 10px;
+  margin-right: -5px;
+  margin-left: -20px;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #45a049;
+}
+
+.login-container .form-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-container a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+.register-container {
+  width: 350px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-container form {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 30px;
+  flex-direction: column;
+}
+
+.register-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-container button {
+  padding: 10px;
+  background-color: #28A745;
+  color: white;
+  font-size: 18px;
+  border: none;
+  margin-right: -20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-container button:hover {
+  background-color: #218838;
+}
+
+.register-container .form-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-container a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+/* Upload Image Form Styles */
+.upload-container {
+  width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 130px;
+  margin-bottom: 50px;
+}
+
+.upload-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.upload-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.upload-container input[type="file"] {
+  margin-bottom: 15px;
+}
+
+.upload-container button {
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.upload-container button:hover {
+  background-color: #0056b3;
+}
+
+.upload-container .form-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.upload-container a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.upload-container a:hover {
+  text-decoration: underline;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+
+/* Media Query for screens with a maximum width of 740px */
+@media only screen and (max-width: 740px) {
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .text{
+    margin-top: 20px;
+  }
+  h2{
+    font-size: 34px;
+  }
+  p{
+    font-size: 28px;
+  }
+  .p2{
+    font-size: 24px;
+  }
+  .encode-container{
+    margin-top: 20px;
+  }
+  .decode-container{
+    margin-top: 20px;
+  }
+  h3{
+    margin-left: 0px;
+    text-align: center;
+    position: relative;
+    margin-bottom: -45px;
+    font-size: 22px;
+  }
+  .container,
+  .header,
+  .file-input-container,
+  .message-input-container,
+  .result-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .file-input-container,
+  .message-input-container {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .file-input-container input,
+  .message-input-container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+  }
+
+  .encode-decode-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .encode-decode-container > div {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .result-container {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .header {
+    font-size: 1.5em;
+    padding: 0 20px;
+  }
+  .input-row{
+    display: block;
+  }
+  h1{
+    margin-left: 20px;
+    font-size: 40px;
+  }
+  .steganography-images-container {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .steganography-image {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}
+ul{
+  overflow-x: hidden;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+  padding: 0px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .login-container, .register-container, .upload-container {
+    width: 80%;
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .container,
+  .header,
+  .file-input-container,
+  .message-input-container,
+  .result-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .decode-container{
+    width: 98%;
+  }
+}
+
+/* Additional Media Query for screens with a maximum width of 300px */
+@media only screen and (max-width: 300px) {
+  .container,
+  .header,
+  .file-input-container,
+  .message-input-container,
+  .result-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .header {
+    font-size: 1.2em;
+    padding: 0 5px;
+  }
+
+  .btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+  h2{
+    width: 97%;
+  }
+  .file-input-container input,
+  .message-input-container input {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+}
