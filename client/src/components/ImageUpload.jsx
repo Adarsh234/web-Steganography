@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { uploadImage } from '../utils/api';
 
 const ImageUpload = () => {
   const [file, setFile] = useState(null);

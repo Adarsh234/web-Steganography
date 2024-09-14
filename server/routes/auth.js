@@ -25,8 +25,8 @@ router.post('/register', async (req, res) => {
 
     // Create new user
     const newUser = new User({
-      username,
-      email,
+      username:  username,
+      email:  email,
       password: hashedPassword,  // Store hashed password
     });
 
@@ -41,6 +41,7 @@ router.post('/register', async (req, res) => {
 
 // User Login
 router.post('/login', async (req, res) => {
+  console.log("Login route hit")
     const { username, password } = req.body;
 
   console.log("Request body:", req.body)

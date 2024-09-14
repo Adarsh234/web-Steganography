@@ -9,8 +9,8 @@ export default function Home() {
       <p>Choose the option you want to perform:</p>
       <nav>
         <ul>
-          <li><button><Link to="/encode">Encode</Link></button></li>
-          <li><button><Link to="/decode">Decode</Link></button></li>
+          <li><Link className='nav-button' to="/encode">Encode</Link></li>
+          <li><Link className='nav-button' to="/decode">Decode</Link></li>
         </ul>
       </nav>
     </div>

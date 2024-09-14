@@ -1,57 +1,49 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import axios from 'axios'; // Assuming you're using axios for API calls
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(''); // State to store success/error messages
-  const [isError, setIsError] = useState(false); // State to track error/success
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const redirect = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const loginData = {
-      username,
-      password,
-    };
-
     try {
-      const response = await fetch('/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-        alert('Login successful');
-      } else {
-        console.log('Login error:', data.msg);
-        alert(`Login failed: ${data.msg}`);
-      }
+      const response = await axios.post("http://localhost:5000/auth/login", formData);
+      console.log(response.data);
+      localStorage.setItem("username", response.data.username);
+      localStorage.setItem("_id", response.data._id);
+      setFormData({ username: "", password: "" });
+      navigate("/");
     } catch (error) {
-      console.error('Error during login:', error);
-      alert('Login failed. Please try again.');
+      // Update error state to display the message
+      setError(error.response?.data?.message || "Registration failed. Please try again.");
+      console.error(error);
     }
   };
+
+  const l1 = useNavigate();
+  const singup = () => {
+    l1("/");
+  }
+
 
   return (
     <div className="login-container">
       <h2>Login</h2>
-      {message && (
-        <div className={isError ? 'error-message' : 'success-message'}>
-          {message}
-        </div>
-      )}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name='username'
+            value={formData.username}
+            onChange={handleChange}
             required
           />
         </div>
@@ -59,13 +51,17 @@ const Login = () => {
           <label>Password:</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name='password'
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className='login'>Login</button>
       </form>
+      <button className='b1 log' onClick={singup}>
+          Don't have an account? Register!
+        </button>
     </div>
   );
 };

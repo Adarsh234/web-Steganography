@@ -78,6 +78,21 @@ nav ul li a {
   text-decoration: underline;
 }
 
+.nav-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  color: white;
+  background-color: #007bff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
 .p2{
   color: #88D18A;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -246,8 +261,8 @@ h3{
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 110px;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.7);
+  margin-top: 260px;
   margin-bottom: 30px;
 }
 
@@ -277,7 +292,7 @@ h3{
   border-radius: 5px;
 }
 
-.login-container button {
+.login {
   padding: 10px;
   margin-right: -5px;
   margin-left: -20px;
@@ -290,7 +305,7 @@ h3{
   cursor: pointer;
 }
 
-.login-container button:hover {
+.login:hover {
   background-color: #45a049;
 }
 
@@ -299,12 +314,22 @@ h3{
   margin-top: 20px;
 }
 
-.login-container a {
-  color: #007BFF;
-  text-decoration: none;
+.log{
+  margin-left: -15px;
 }
 
-.login-container a:hover {
+.b1 {
+  text-decoration: none;
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: #0056b3;
+  font-size: 18px;
+  font-family: Cambria Math;
+}
+
+.b1:hover {
   text-decoration: underline;
 }
 
@@ -315,8 +340,8 @@ h3{
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  
-  margin-top: 100px;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.7);  
+  margin-top: 220px;
   margin-bottom: 20px;
 }
 
@@ -346,7 +371,7 @@ h3{
   border-radius: 5px;
 }
 
-.register-container button {
+.submit {
   padding: 10px;
   background-color: #28A745;
   color: white;
@@ -357,7 +382,7 @@ h3{
   cursor: pointer;
 }
 
-.register-container button:hover {
+.submit:hover {
   background-color: #218838;
 }
 
@@ -578,7 +603,13 @@ nav ul li {
     margin: 0;
     width: 100%;
   }
-  
+  ul{
+    font-size: 20px;
+  }
+
+  a{
+    font-size: 20px;
+  }
   .decode-container{
     width: 98%;
   }
