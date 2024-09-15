@@ -9,6 +9,7 @@ import Decode from './components/Decode';
 import Navbar from './components/Navbar'; 
 import UploadImage from './components/ImageUpload'
 import Logout from './components/Logout';
+import Footer from './components/Footer';
 import './App.css'
 import { AuthProvider } from './context/AuthContext';
 
@@ -29,6 +30,7 @@ useEffect(() => {
 }, []);
 
 const hideNavbarOn = ['/login', '/'];
+const hideFooterOn =  ['/login', '/', '/logout'];
 
 return (
   <AuthProvider>
@@ -42,6 +44,7 @@ return (
           <Route path="/encode" element={<Encode />} />
           <Route path="/decode" element={<Decode />} />
       </Routes>
+      {!hideFooterOn.includes(location.pathname) && <Footer />}
   </AuthProvider>
 );
 };

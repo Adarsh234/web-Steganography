@@ -32,10 +32,11 @@ h2 {
   color: #333;
 }
 .text{
-  margin-top: 180px;
-  margin-bottom: 36px;
+  margin-top: 150px;
+  margin-bottom: 88px;
   padding: 20px;
   text-align: center;
+  overflow-y: hidden;
 }
 
 p {
@@ -47,12 +48,15 @@ p {
 .encode-container {
   margin-top: 180px;
   text-align: center;
+  overflow-x: hidden;
+  margin-bottom: 74px;
 }
 
 .decode-container{
   margin-top: 180px;
-  margin-bottom: 81px;
   text-align: center;
+  overflow-x: hidden;
+  margin-bottom: 87px;
 }
 
 nav ul {
@@ -133,9 +137,6 @@ nav ul li a {
   cursor: pointer;
 }
 
-.decode-container{
-  overflow-x: hidden;
-}
 
 .decode-container input[type="file"] {
   margin-bottom: 40px;
@@ -202,7 +203,7 @@ h3{
 }
 .steganography-images-container {
   position: relative;
-  bottom: -40px;
+  bottom: auto;
   left: 0;
   right: 0;
   display: flex;
@@ -211,7 +212,7 @@ h3{
   padding: 20px;
   background-color: #D8D4F2;
   border-top: 2px solid #ccc;
-  margin-top: 40px;
+  margin-top: 60px;
   height: 20%;
 }
 
@@ -408,9 +409,9 @@ h3{
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.7);  
   margin-top: 130px;
-  margin-bottom: 50px;
+  margin-bottom: 143px;
 }
 
 .upload-container h2 {
