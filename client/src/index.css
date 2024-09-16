@@ -280,29 +280,32 @@ h3{
 
 .login-container label {
   margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 18px;
+  font-family: Cascadia Mono SemiBold;
 }
 
 .login-container input[type="text"],
 .login-container input[type="password"] {
   padding: 10px;
-  margin-left: -20px;
+  margin-left: -10px;
   margin-right: 60px;
   margin-bottom: 15px;
   border: 3px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
+  width: 95%;
 }
 
 .login {
   padding: 10px;
   margin-right: -5px;
-  margin-left: -20px;
-  font-size: 18px;
-  font-weight: 700;
+  margin-left: -10px;
+  font-size: 20px;
+  margin-top: 10px;
+  font-family: Cascadia Mono SemiBold;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -315,7 +318,7 @@ h3{
   margin-top: 20px;
 }
 
-.log{
+.b1{
   margin-left: -15px;
 }
 
@@ -360,7 +363,8 @@ h3{
 
 .register-container label {
   margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 18px;
+  font-family: Cascadia Mono SemiBold;
 }
 
 .register-container input[type="text"],
@@ -376,8 +380,9 @@ h3{
   padding: 10px;
   background-color: #28A745;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   border: none;
+  font-family: Cascadia Mono SemiBold;
   margin-right: -20px;
   border-radius: 5px;
   cursor: pointer;

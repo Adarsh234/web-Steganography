@@ -19,10 +19,10 @@ const Login = () => {
       localStorage.setItem("username", response.data.username);
       localStorage.setItem("_id", response.data._id);
       setFormData({ username: "", password: "" });
-      navigate("/");
+      alert("User  logged in");
+      navigate("/home");
     } catch (error) {
-      // Update error state to display the message
-      setError(error.response?.data?.message || "Registration failed. Please try again.");
+      setError(error.response?.data?.message || "Login Failed!! Please try again later");
       console.error(error);
     }
   };
@@ -59,7 +59,7 @@ const Login = () => {
         </div>
         <button type="submit" className='login'>Login</button>
       </form>
-      <button className='b1 log' onClick={singup}>
+      <button className='b1' onClick={singup}>
           Don't have an account? Register!
         </button>
     </div>

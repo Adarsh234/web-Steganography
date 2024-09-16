@@ -10,7 +10,6 @@ const Navbar = () => {
           <li className='li'><Link to="/encode">Encode</Link></li>
           <li className='li'><Link to="/decode">Decode</Link></li>
           <li className='li'><Link to="/upload-image">Upload Images</Link></li>
-          <li className='li'><Link to="/log-out">LogOut</Link></li>
         </ul>
       </nav>
     </header>

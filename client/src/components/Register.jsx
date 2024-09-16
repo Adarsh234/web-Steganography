@@ -19,7 +19,10 @@ const Register = () => {
       console.log(response.data);
       localStorage.setItem("username", response.data.username);
       localStorage.setItem("_id", response.data._id);
+      localStorage.setItem('email', response.data.email);
+      localStorage.setItem('password', response.data.password);
       setFormData({ name: "", email: "", password: "" });
+      alert("Data send successfully");
       navigate("/login");
     } catch (error) {
       // Update error state to display the message

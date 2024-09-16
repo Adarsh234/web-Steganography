@@ -8,7 +8,6 @@ import Encode from './components/Encode';
 import Decode from './components/Decode';
 import Navbar from './components/Navbar'; 
 import UploadImage from './components/ImageUpload'
-import Logout from './components/Logout';
 import Footer from './components/Footer';
 import './App.css'
 import { AuthProvider } from './context/AuthContext';
@@ -38,7 +37,6 @@ return (
       <Routes>
         <Route index element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
           <Route path="/home" element={<Home />} />
           <Route path="/upload-image" element={<UploadImage />} />
           <Route path="/encode" element={<Encode />} />
