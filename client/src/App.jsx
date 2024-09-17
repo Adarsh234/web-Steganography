@@ -29,7 +29,7 @@ useEffect(() => {
 }, []);
 
 const hideNavbarOn = ['/login', '/'];
-const hideFooterOn =  ['/login', '/', '/logout'];
+const hideFooterOn =  ['/login', '/'];
 
 return (
   <AuthProvider>
