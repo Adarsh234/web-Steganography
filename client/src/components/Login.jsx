@@ -20,7 +20,7 @@ const Login = () => {
       localStorage.setItem("_id", response.data._id);
       setFormData({ username: "", password: "" });
       alert("User  logged in");
-      navigate("/home");
+      navigate("https://web-steganography-ejxmb9v84-adarsh-sharmas-projects-b2794ec8.vercel.app/home");
     } catch (error) {
       setError(error.response?.data?.message || "Login Failed!! Please try again later");
       console.error(error);

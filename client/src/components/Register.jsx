@@ -23,7 +23,7 @@ const Register = () => {
       localStorage.setItem('password', response.data.password);
       setFormData({ name: "", email: "", password: "" });
       alert("Data send successfully");
-      navigate("/login");
+      navigate("https://web-steganography-ejxmb9v84-adarsh-sharmas-projects-b2794ec8.vercel.app/login");
     } catch (error) {
       // Update error state to display the message
       setError(error.response?.data?.message || "Registration failed. Please try again.");
