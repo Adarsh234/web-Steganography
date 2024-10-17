@@ -4,12 +4,14 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const steganographyRoutes = require('./routes/steganography');
 const path = require('path');
+const cors = require('cors')
 
 // Initialize the app
 const app = express();
 dotenv.config();
 
 // Middleware to parse JSON
+app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
