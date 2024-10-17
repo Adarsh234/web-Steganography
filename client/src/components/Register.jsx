@@ -15,7 +15,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/auth/register", formData);
+      const response = await axios.post("https://web-steganography-6gmz.onrender.com/auth/register", formData);
       console.log(response.data);
       localStorage.setItem("username", response.data.username);
       localStorage.setItem("_id", response.data._id);

@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
     server: {
       proxy: {
-        '/auth': 'http://localhost:5000',
-        '/steganography': 'http://localhost:5000',
+        '/auth': 'http://localhost:5000'||'https://web-steganography-6gmz.onrender.com/',
+        '/steganography': 'http://localhost:5000'||"https://web-steganography-6gmz.onrender.com/",
       },
     },
   
