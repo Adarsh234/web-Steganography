@@ -2,10 +2,10 @@
 
 import { API_URL } from '../utils/api';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-const Login = () => {
+function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +25,6 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${API_URL}/auth/login`, formData);
-      console.log(response.data);
 
       if (response.status === 200) {
         localStorage.setItem("username", formData.username);
@@ -130,6 +129,21 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Login;
+export default function Login() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+          <div className="flex items-center gap-3 text-xs uppercase tracking-widest font-bold text-[#6F7F5F]">
+            <span className="h-2 w-2 rounded-full bg-[#6F7F5F] animate-ping" />
+            Loading authentication...
+          </div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
+  );
+}
