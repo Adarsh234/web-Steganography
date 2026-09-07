@@ -17,14 +17,28 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Middleware
+// Parse allowed CORS origins from .env (defaults to localhost if undefined)
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((origin) => origin.trim())
+  : ['http://localhost:3000', 'http://127.0.0.1:3000'];
+
+// CORS configuration supporting dynamic origins and required custom headers
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS policy rejection: Origin ${origin} is not permitted.`));
+      }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'username', 'Authorization'],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

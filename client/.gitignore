@@ -1,3 +1,9 @@
-/node_modules
-/dist
-/.next
+node_modules
+.next
+out
+dist
+build
+.env.local
+.env
+.env.local
+.env*.local
