@@ -1,9 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-
 
 // User Registration
 router.post('/register', async (req, res) => {
@@ -14,25 +12,23 @@ router.post('/register', async (req, res) => {
   }
   
   try {
-    const userExists = await User.findOne({ username });
+    // Check if either the username OR the email already exists
+    const userExists = await User.findOne({ $or: [{ username }, { email }] });
     if (userExists) {
-      console.log('User exsist');
-      return res.status(400).json({ message: 'Username already exists' });
+      return res.status(409).json({ message: 'Username or email already exists' });
     }
-    // Hash the password before saving
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
+    // Pass the raw password directly. 
+    // The User schema's pre('save') hook will hash it automatically.
     const newUser = new User({
-      username:  username,
-      email:  email,
-      password: hashedPassword,  // Store hashed password
+      username: username,
+      email: email,
+      password: password, 
     });
 
     await newUser.save();
     console.log('User registered successfully');
-    alert("user login successfull")
+    
     res.status(201).json({ msg: 'User registered successfully' });
   } catch (error) {
     console.error('Registration error:', error);
@@ -42,37 +38,30 @@ router.post('/register', async (req, res) => {
 
 // User Login
 router.post('/login', async (req, res) => {
-  console.log("Login route hit")
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-  console.log("Request body:", req.body)
-  
-    try {
-      // Check if user exists
-      const user = await User.findOne({ username });
-      console.log('User found:', user);
-
-      if (!user) {
-        console.log("User not found")
-        return res.status(400).json({ message: 'User not found' });
-      }
-
-      try {
-        const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Password match:', isMatch);
-  
-        if (!isMatch) {
-          return res.status(400).json({ msg: 'Invalid credentials' });
-        }
-
-        res.status(200).json({ msg: 'Login successful' });
-      } catch (passwordError) {
-        console.error('Password comparison error:', passwordError);
-        return res.status(500).json({ msg: 'Password comparison failed' });
-      }
-    } catch (error) {
-      res.status(500).json({ msg: 'Server error' });
+  try {
+    // Check if user exists
+    const user = await User.findOne({ username });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  });
+
+    // Use the custom comparePassword method from your User schema
+    const isMatch = await user.comparePassword(password);
+    
+    if (!isMatch) {
+      return res.status(401).json({ msg: 'Invalid credentials' });
+    }
+
+    // TODO: Generate and return a JWT here for future authenticated requests
+    res.status(200).json({ msg: 'Login successful' });
+    
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
 
 module.exports = router;
