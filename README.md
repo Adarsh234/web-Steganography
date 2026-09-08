@@ -227,5 +227,3 @@ npm run dev
 ## License
 
 Distributed under the MIT License. See [LICENSE](https://www.google.com/search?q=LICENSE) for details.
-
-```
