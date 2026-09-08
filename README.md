@@ -1,63 +1,64 @@
 # zero~trace
 
-> Covert visual cryptography & client-side LSB steganography platform with persistent carrier vaults.
+> Covert visual steganography & client-side LSB payload injection platform with persistent carrier vaults.
 
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-24+-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v3.4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Deployment](https://img.shields.io/badge/Vercel-Live-000000?style=flat-square&logo=vercel)](https://web-steganography.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-B5543A?style=flat-square)](LICENSE)
 
 ---
 
 ## Overview
 
-**zero~trace** is a full-stack steganographic workspace designed with a warm, editorial "zero~space" aesthetic. It enables secure, zero-knowledge payload injection into lossless image carriers entirely in the browser using HTML5 Canvas pixel manipulation, coupled with a Node.js/Express backend for authenticated carrier vault archiving.
+**zero~trace** is a full-stack steganographic workspace built with an editorial "zero~space" design language. It allows users to embed encrypted or plain text payloads directly into lossless carrier images entirely inside the browser using HTML5 Canvas pixel manipulation. 
 
-Plaintext messages never touch the wire unencoded. Bitstreams are woven directly into the least significant bits of image channel arrays client-side before any optional cloud persistence occurs.
+Because encoding and decoding happen on the client machine, unencoded sensitive text never traverses the network. The accompanying Express/MongoDB backend serves exclusively as an authenticated carrier vault for cloud archiving, retrieval, and hand-off.
+
+Live Demo: [web-steganography.vercel.app](https://web-steganography.vercel.app)
 
 ---
 
 ## Core Features
 
-- **Zero-Knowledge Client-Side LSB:** Payload encoding and bitstream extraction run locally via the HTML5 Canvas API. Unencoded secrets never transmit across the network.
-- **Null-Delimiter Bitstream Framing:** Messages are encoded with an explicit terminal sequence (`00000000`) across color channels, preventing read-overflow and artifact corruption.
-- **Carrier Image Vault:** Authenticated users can store, preview, download, and manage steganographic carriers directly in a cloud archive.
-- **Direct Workspace Hand-off:** Vault carriers can be dispatched directly to the decoder workspace via query parameters with automatic cross-origin blob resolution.
-- **Secure Route Interception:** Unauthenticated visitors can view the platform showcase; operational workspaces (`/encode`, `/decode`, `/upload-image`) are guarded behind session verification with preserved return redirects.
-- **Editorial Aesthetic:** Custom 60:30:10 palette (`#FAF8F5`, `#F0E6D8`, `#5A2E25`, `#B5543A`, `#6F7F5F`) paired with minimal pill-based geometry and monospace telemetry.
+- **Zero-Knowledge Client Execution:** Payload injection and extraction occur locally in the browser's 2D canvas context. No raw message data is ever sent to the server.
+- **Sentinel-Delimited Bitstreams:** Encodes messages with an explicit null-terminator sequence (`00000000`) across color channels, preventing buffer over-reads and image corruption during extraction.
+- **Persistent Carrier Vault:** Authenticated users can archive carrier images, inspect file sizes, preview stored media, and manage records via cloud storage.
+- **Seamless Workspace Hand-Off:** Jump straight from the Vault Gallery into the Decoder workspace via URL queries with automated cross-origin blob fetching.
+- **Route Guard Interceptors:** Workspace routes (`/encode`, `/decode`, `/upload-image`) are guarded behind authentication checkpoints that preserve intent with redirect queries.
+- **Editorial UI System:** Warm 60:30:10 chromatic hierarchy (`#FAF8F5`, `#F0E6D8`, `#5A2E25`, `#B5543A`, `#6F7F5F`) with minimal pill geometry, reactive loading feedback, and monospaced diagnostic readouts.
 
 ---
 
-## System Architecture
+## Architecture
 
-
-```
-
+```text
 ┌────────────────────────────────────────────────────────┐
 │                   Browser / Client                     │
 │  ┌──────────────────┐           ┌───────────────────┐  │
 │  │   Encode View    │           │    Decode View    │  │
-│  │ (Canvas LSB Wite)│           │(Canvas LSB Read)  │  │
+│  │(Canvas LSB Write)│           │ (Canvas LSB Read) │  │
 │  └────────┬─────────┘           └─────────▲─────────┘  │
 │           │                               │            │
-│           │ Blob                          │ Image URL  │
+│           │ Blob (Carrier)                │ Image URL  │
 │           ▼                               │            │
 │  ┌────────────────────────────────────────┴─────────┐  │
 │  │               Vault Gallery & Upload             │  │
 │  └────────────────────────┬─────────────────────────┘  │
 └───────────────────────────┼────────────────────────────┘
-│ HTTP Multipart / JSON
-│ Headers: { username }
+                            │ HTTP Multipart / JSON
+                            │ Headers: { username }
 ┌───────────────────────────▼────────────────────────────┐
 │                  Express.js Backend                    │
 │  ┌──────────────────────────────────────────────────┐  │
-│  │ /auth               • Login & Identity Creation  │  │
+│  │ /auth               • Login & Account Creation   │  │
 │  │ /steganography      • Multer Storage & Disk I/O  │  │
-│  │ /uploads            • Static Carrier Assets      │  │
+│  │ /uploads            • Static Carrier Hosting     │  │
 │  └────────────────────────┬─────────────────────────┘  │
 └───────────────────────────┼────────────────────────────┘
-│ Mongoose ODM
+                            │ Mongoose ODM
 ┌───────────────────────────▼────────────────────────────┐
 │                    MongoDB Atlas                       │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -69,41 +70,59 @@ Plaintext messages never touch the wire unencoded. Bitstreams are woven directly
 
 ---
 
-## Technical Stack
+## Repository Structure
 
-| Layer | Technologies |
-|---|---|
-| **Frontend** | Next.js 15 (App Router), React 19, Tailwind CSS, Axios |
-| **Cryptography** | HTML5 Canvas 2D Context, Least Significant Bit (LSB) Modulation |
-| **Backend** | Node.js, Express.js, Multer (Disk Storage), CORS |
-| **Database** | MongoDB Atlas via Mongoose 8+ |
-| **Deployment** | Vercel (Client), Render / Railway (Backend Server) |
+```text
+web-steganography/
+├── client/                     # Next.js 15 App Router Frontend
+│   ├── src/
+│   │   ├── app/                # Page entry points (layout, page, login, decode, etc.)
+│   │   ├── components/         # Core UI (Navbar, Footer, ImageUpload, ClientWrapper)
+│   │   ├── context/            # AuthContext & state hooks
+│   │   └── utils/              # Canvas LSB algorithms & API config
+│   ├── .env.local              # Local environment variables (git-ignored)
+│   └── package.json
+│
+├── server/                     # Node.js Express REST Backend
+│   ├── models/                 # Mongoose schemas (User, Image)
+│   ├── routes/                 # Express routers (/auth, /steganography)
+│   ├── uploads/                # Local/persistent carrier storage (git-ignored)
+│   ├── .env                    # Secrets & connection strings (git-ignored)
+│   ├── server.js               # Server entry point & CORS configuration
+│   └── package.json
+│
+└── README.md
+
+```
 
 ---
 
-## Steganography Engine Details
+## How the Steganography Engine Works
 
-The platform uses Least Significant Bit (LSB) modulation over 8-bit RGBA pixel byte arrays:
+The client-side engine executes Least Significant Bit (LSB) modulation on the red component of the 8-bit RGBA pixel matrix:
 
-1. **Text to Binary Conversion:** Each UTF-8 character is converted to an 8-bit binary representation.
-2. **Sentinel Boundary:** A null-byte terminator sequence (`1111111111111110` / `00000000`) is appended to mark EOF.
-3. **Channel Injection:** The least significant bit of each pixel's red channel is replaced with a payload bit:
-   $$\text{Channel}' = (\text{Channel} \ \& \ \sim 1) \ | \ \text{Bit}$$
-4. **Extraction:** During decoding, bits are read sequentially from the red channel until the sentinel pattern matches, reconstructing the plaintext message without transmitting image data to third-party endpoints.
+1. **Bitstream Translation:** UTF-8 input strings are unpacked into sequential 8-bit binary arrays.
+2. **Sentinel Injection:** An end-of-payload null byte (`00000000`) is appended to mark the bitstream termination boundary.
+3. **Pixel Modulation:** The least significant bit of each pixel's red channel is replaced:
 
-> **Note:** Only uncompressed or losslessly compressed carriers (such as PNG) preserve injected bitstreams. Lossy compression formats (like standard JPEG) discard high-frequency LSB values.
+$$\text{Channel}' = (\text{Channel} \ \& \ \sim 1) \ | \ \text{Bit}$$
+
+
+4. **Extraction:** The decoding worker samples the red channel bits sequentially until the terminal delimiter is parsed, rebuilding the original string.
+
+> **Important:** Always export encoded images as lossless **PNG**. Lossy compression algorithms (like standard JPEG) resample color values across pixel blocks, irreversibly destroying LSB payload bits.
 
 ---
 
-## Getting Started
+## Local Development Setup
 
 ### Prerequisites
 
-- Node.js `20.x` or later
-- npm or pnpm
-- MongoDB Atlas cluster URI (or local MongoDB daemon)
+* Node.js 20.x or 24.x
+* npm or pnpm
+* A running MongoDB instance (local or MongoDB Atlas)
 
-### 1. Repository Setup
+### 1. Clone Repository
 
 ```bash
 git clone [https://github.com/Adarsh234/web-Steganography.git](https://github.com/Adarsh234/web-Steganography.git)
@@ -111,20 +130,20 @@ cd web-Steganography
 
 ```
 
-### 2. Backend Configuration
+### 2. Configure & Start Backend
 
 ```bash
-cd backend # or your server directory
+cd server
 npm install
 
 ```
 
-Create a `.env` file in the backend root:
+Create a `.env` file in the `server` directory:
 
 ```env
 PORT=5000
 MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/steganography?retryWrites=true&w=majority
-CLIENT_URL=http://localhost:3000,[https://web-steganography.vercel.app](https://web-steganography.vercel.app)
+CLIENT_URL=http://localhost:3000,[http://127.0.0.1:3000](http://127.0.0.1:3000)
 
 ```
 
@@ -136,7 +155,7 @@ npm run dev
 
 ```
 
-### 3. Frontend Configuration
+### 3. Configure & Start Frontend
 
 ```bash
 cd ../client
@@ -151,37 +170,68 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 
 ```
 
-Launch the Next.js development server:
+Start the Next.js development server:
 
 ```bash
 npm run dev
-# Next.js running on http://localhost:3000
+# Client running on http://localhost:3000
 
 ```
+
+---
+
+## Production Deployment
+
+### Frontend (Vercel)
+
+1. Import your GitHub repository on **Vercel**.
+2. Set **Root Directory** to `client`.
+3. Framework Preset will automatically detect **Next.js**.
+4. Configure Environment Variables:
+* `NEXT_PUBLIC_API_URL`: Your deployed backend URL (e.g., `https://zero-trace-api.onrender.com`).
+
+
+5. Deploy.
+
+### Backend (Render / Railway)
+
+1. Create a new **Web Service** pointing to the repository root.
+2. Set the **Root Directory** to `server`.
+3. Set **Build Command** to `npm install`.
+4. Set **Start Command** to `node server.js`.
+5. Add Environment Variables:
+* `PORT`: `5000`
+* `MONGO_URI`: Your MongoDB Atlas connection URI.
+* `CLIENT_URL`: `https://web-steganography.vercel.app`
+
+
+6. *(Optional for Render)*: Add a **Persistent Disk** mounted at `/uploads` if you want archived carriers to survive container restarts on the free/standard tiers.
 
 ---
 
 ## API Reference
 
-### Authentication
+### Authentication Endpoints
 
-* `POST /auth/register` — Registers an identity handle and credentials.
-* `POST /auth/login` — Authenticates session and sets client token state.
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/auth/register` | Register a new username and password |
+| `POST` | `/auth/login` | Validate credentials and establish session |
 
-### Carrier Vault
+### Vault & Carrier Endpoints
 
-* `POST /steganography/encode` — Uploads an encoded carrier image to user vault storage. Requires `username` header.
-* `GET /steganography/user-images` — Fetches metadata for all images owned by the requesting user. Requires `username` header.
-* `DELETE /steganography/image/:id` — Removes an image record from MongoDB and unlinks the file from disk. Requires `username` header.
+| Method | Endpoint | Required Headers | Description |
+| --- | --- | --- | --- |
+| `POST` | `/steganography/encode` | `username: <string>` | Save an encoded carrier file to vault storage |
+| `GET` | `/steganography/user-images` | `username: <string>` | Fetch all archived carriers belonging to user |
+| `DELETE` | `/steganography/image/:id` | `username: <string>` | Delete carrier record from database and disk |
 
 ---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for details.
+Distributed under the MIT License. See [LICENSE](https://www.google.com/search?q=LICENSE) for details.
 
 ```
-
-<FollowUp label="Want to add deployment documentation for hosting the Node.js backend on Render or Railway?" query="Provide a step-by-step guide to deploy the Express backend to Render with persistent disk storage and environment variables."/>
 
 ```
