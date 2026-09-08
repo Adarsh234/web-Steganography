@@ -32,6 +32,8 @@ Plaintext messages never touch the wire unencoded. Bitstreams are woven directly
 ## System Architecture
 
 
+```
+
 ┌────────────────────────────────────────────────────────┐
 │                   Browser / Client                     │
 │  ┌──────────────────┐           ┌───────────────────┐  │
