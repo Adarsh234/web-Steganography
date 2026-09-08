@@ -180,8 +180,6 @@ npm run dev
 
 Distributed under the MIT License. See `LICENSE` for details.
 
-```
-
 <FollowUp label="Want to add deployment documentation for hosting the Node.js backend on Render or Railway?" query="Provide a step-by-step guide to deploy the Express backend to Render with persistent disk storage and environment variables."/>
 
 ```
