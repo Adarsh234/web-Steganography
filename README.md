@@ -93,6 +93,7 @@ web-steganography/
 │
 └── README.md
 
+```
 
 ---
 
@@ -103,10 +104,6 @@ The client-side engine executes Least Significant Bit (LSB) modulation on the re
 1. **Bitstream Translation:** UTF-8 input strings are unpacked into sequential 8-bit binary arrays.
 2. **Sentinel Injection:** An end-of-payload null byte (`00000000`) is appended to mark the bitstream termination boundary.
 3. **Pixel Modulation:** The least significant bit of each pixel's red channel is replaced:
-
-$$\text{Channel}' = (\text{Channel} \ \& \ \sim 1) \ | \ \text{Bit}$$
-
-
 4. **Extraction:** The decoding worker samples the red channel bits sequentially until the terminal delimiter is parsed, rebuilding the original string.
 
 > **Important:** Always export encoded images as lossless **PNG**. Lossy compression algorithms (like standard JPEG) resample color values across pixel blocks, irreversibly destroying LSB payload bits.
