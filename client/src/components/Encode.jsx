@@ -8,6 +8,7 @@ function Encode() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState('');
+  const [password, setPassword] = useState('');
   const [encodedImage, setEncodedImage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
@@ -22,13 +23,14 @@ function Encode() {
     }
   };
 
-  const handleMessageChange = (e) => {
-    setMessage(e.target.value);
-  };
-
   const handleEncode = () => {
     if (!image || !message.trim()) {
       setError("Please provide both a cover image and a secret payload.");
+      return;
+    }
+
+    if (!password.trim()) {
+      setError("An AES-GCM encryption password is required to protect this payload.");
       return;
     }
 
@@ -39,7 +41,8 @@ function Encode() {
     reader.onload = async () => {
       try {
         const imageData = reader.result;
-        const result = await encodeMessageInImage(message, imageData);
+        // Passes payload, source image, and secret key into the updated stego engine
+        const result = await encodeMessageInImage(message, imageData, password);
         setEncodedImage(result);
       } catch (err) {
         console.error("Encoding error:", err);
@@ -47,6 +50,10 @@ function Encode() {
       } finally {
         setIsProcessing(false);
       }
+    };
+    reader.onerror = () => {
+      setError("Failed to read the image file.");
+      setIsProcessing(false);
     };
     reader.readAsDataURL(image);
   };
@@ -67,7 +74,7 @@ function Encode() {
             </h1>
           </div>
           <p className="text-xs text-[#5A2E25]/70 max-w-xs">
-            Modulates the 8th bit of pixel red channels. Outputs lossless PNG format strictly within memory.
+            Derives a PBKDF2/AES-GCM key, injects binary ciphertext and a 32-bit length prefix into pixel red channels.
           </p>
         </div>
 
@@ -81,7 +88,7 @@ function Encode() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
             
             {/* Left Column: Image Source */}
             <div className="flex flex-col gap-3">
@@ -138,12 +145,31 @@ function Encode() {
               <textarea
                 rows="8"
                 value={message}
-                onChange={handleMessageChange}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type confidential payload to conceal into RGB channel LSBs..."
                 className="w-full h-full min-h-[220px] p-4 rounded-2xl bg-[#FAF8F5]/80 border border-[#5A2E25]/20 focus:border-[#B5543A] focus:outline-none text-xs text-[#5A2E25] placeholder-[#5A2E25]/40 font-mono resize-none transition-colors"
               />
             </div>
 
+          </div>
+
+          {/* Encryption Key Row */}
+          <div className="flex flex-col gap-2 mb-8">
+            <div className="flex justify-between items-center">
+              <label className="text-xs uppercase tracking-widest font-bold text-[#B5543A]">
+                03. Encryption Key (Passphrase)
+              </label>
+              <span className="text-[10px] uppercase tracking-wider text-[#5A2E25]/50">
+                AES-256-GCM / PBKDF2
+              </span>
+            </div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter a private passphrase to encrypt payload before bitstream modulation..."
+              className="w-full p-4 rounded-2xl bg-[#FAF8F5]/90 border border-[#5A2E25]/20 focus:border-[#B5543A] focus:outline-none text-xs text-[#5A2E25] placeholder-[#5A2E25]/40 font-mono transition-colors"
+            />
           </div>
 
           {/* Action Button */}
@@ -155,10 +181,10 @@ function Encode() {
             {isProcessing ? (
               <>
                 <span className="h-2 w-2 rounded-full bg-[#FAF8F5] animate-ping" />
-                Modulating Color Channels...
+                Encrypting & Modulating Color Channels...
               </>
             ) : (
-              "Inject Payload & Generate Carrier"
+              "Encrypt Payload & Generate Carrier"
             )}
           </button>
 

@@ -8,6 +8,7 @@ import { decodeMessageFromImage } from '../utils/Steganography.jsx';
 function DecodeContent() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [password, setPassword] = useState(''); // AES Decryption Key
   const [decodedMessage, setDecodedMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
@@ -56,14 +57,21 @@ function DecodeContent() {
       return;
     }
 
+    if (!password.trim()) {
+      setError("A decryption password is required to unlock the payload.");
+      return;
+    }
+
     setError('');
     setIsProcessing(true);
+    setDecodedMessage('');
 
     const reader = new FileReader();
     reader.onload = async () => {
       try {
         const imageData = reader.result;
-        const message = await decodeMessageFromImage(imageData);
+        // Pass the password to the upgraded decoding engine
+        const message = await decodeMessageFromImage(imageData, password);
 
         if (!message || message.trim() === '') {
           setError("No hidden message found in this image, or it was encoded using a different method.");
@@ -73,7 +81,7 @@ function DecodeContent() {
         }
       } catch (err) {
         console.error("Decoding error:", err);
-        setError(err.message || "Failed to decode message. Ensure this is a valid encoded PNG image.");
+        setError(err.message || "Failed to decode message. Ensure the password is correct.");
       } finally {
         setIsProcessing(false);
       }
@@ -96,121 +104,134 @@ function DecodeContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#5A2E25] selection:bg-[#F0E6D8] selection:text-[#5A2E25] px-6 py-12">
-      <div className="max-w-4xl mx-auto">
-        
+    <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-xl">
+
         {/* Header Section */}
-        <div className="border-b border-[#5A2E25]/15 pb-6 mb-8 flex flex-col sm:flex-row justify-between sm:items-end gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0E6D8]/60 border border-[#5A2E25]/10 text-[11px] font-bold uppercase tracking-widest text-[#6F7F5F] mb-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#6F7F5F]" />
-              Decoder Workspace
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#5A2E25] font-display">
-              Extract <span className="text-[#B5543A]">Payload</span>
-            </h1>
-          </div>
-          <p className="text-xs text-[#5A2E25]/70 max-w-xs">
-            Reconstructs binary payloads bit-by-bit from the red channel matrix until the terminal boundary is detected.
+        <div className="text-center mb-8">
+          <span className="inline-block text-xs font-mono uppercase tracking-widest text-[#B5543A] mb-2">
+            Decoder Workspace
+          </span>
+          <h1 className="text-3xl font-bold text-[#5A2E25] mb-2">
+            Extract Payload
+          </h1>
+          <p className="text-sm text-[#5A2E25]/70">
+            Reconstructs binary payloads and decrypts them using your AES-GCM secure key.
           </p>
         </div>
 
         {/* Workspace Card */}
-        <div className="bg-[#F0E6D8]/30 border border-[#5A2E25]/15 rounded-3xl p-6 sm:p-10 backdrop-blur-sm shadow-sm">
-          
+        <div className="bg-white/60 border border-[#5A2E25]/10 rounded-3xl p-6 sm:p-8 shadow-sm">
+
           {error && (
-            <div className="p-4 mb-6 rounded-2xl bg-[#B5543A]/10 border border-[#B5543A]/30 text-[#B5543A] text-xs font-semibold flex items-center gap-2">
+            <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl p-3 mb-6">
               <span>⚠</span>
               <span>{error}</span>
             </div>
           )}
 
-          <div className="flex flex-col gap-6 mb-8">
-            <label className="text-xs uppercase tracking-widest font-bold text-[#6F7F5F]">
+          {/* Carrier Image Input */}
+          <div className="mb-6">
+            <label className="block text-xs font-mono uppercase tracking-widest text-[#5A2E25]/60 mb-2">
               Carrier Image Input
             </label>
 
-            <label className="group relative flex flex-col items-center justify-center min-h-[220px] rounded-2xl border-2 border-dashed border-[#5A2E25]/20 hover:border-[#B5543A]/50 bg-[#FAF8F5]/80 hover:bg-[#FAF8F5] transition-all cursor-pointer p-6 overflow-hidden">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-
-              {imagePreview ? (
-                <div className="relative w-full h-56 flex items-center justify-center">
-                  <img
-                    src={imagePreview}
-                    alt="Carrier Preview"
-                    className="max-h-full max-w-full object-contain rounded-lg"
+            {imagePreview ? (
+              <div className="relative rounded-2xl overflow-hidden border border-[#5A2E25]/15">
+                <img
+                  src={imagePreview}
+                  alt="Carrier preview"
+                  className="w-full h-56 object-cover"
+                />
+                <label className="absolute bottom-3 right-3 cursor-pointer bg-[#5A2E25] text-white text-xs font-mono px-4 py-2 rounded-full hover:bg-[#B5543A] transition-colors">
+                  Select Different Carrier
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
                   />
-                  <div className="absolute inset-0 bg-[#5A2E25]/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center text-[#FAF8F5] text-xs font-semibold">
-                    Select Different Carrier
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center p-4">
-                  <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[#5A2E25]/5 flex items-center justify-center text-[#5A2E25] group-hover:scale-110 transition-transform">
-                    ↓
-                  </div>
-                  <p className="text-xs font-bold text-[#5A2E25] uppercase tracking-wider">
-                    Upload Encoded Carrier Image
-                  </p>
-                  <p className="text-[11px] text-[#5A2E25]/60 mt-1">
-                    Must be the original, uncompressed PNG generated by the engine
-                  </p>
-                </div>
-              )}
+                </label>
+              </div>
+            ) : (
+              <label className="flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-[#5A2E25]/25 rounded-2xl py-10 hover:border-[#B5543A] transition-colors">
+                <span className="text-2xl text-[#5A2E25]/40">↓</span>
+                <span className="text-sm font-medium text-[#5A2E25]">
+                  Upload Encoded Carrier Image
+                </span>
+                <span className="text-xs text-[#5A2E25]/50">
+                  Must be the original, uncompressed PNG generated by the engine
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+            )}
+          </div>
+
+          {/* Decryption Password Input */}
+          <div className="mb-6">
+            <label className="flex items-center justify-between text-xs font-mono uppercase tracking-widest text-[#5A2E25]/60 mb-2">
+              <span>Cryptographic Key (AES-256-GCM)</span>
+              <span className="text-[#B5543A]">Required</span>
             </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password to unlock payload..."
+              className="w-full p-4 rounded-2xl bg-[#FAF8F5]/90 border border-[#5A2E25]/20 focus:border-[#B5543A] focus:outline-none text-xs text-[#5A2E25] font-mono transition-colors"
+            />
           </div>
 
           {/* Action Button */}
           <button
             onClick={handleDecode}
             disabled={isProcessing}
-            className="w-full py-4 rounded-full bg-[#5A2E25] text-[#FAF8F5] text-xs font-bold tracking-widest uppercase hover:bg-[#5A2E25]/90 active:scale-[0.99] transition-all disabled:opacity-40 disabled:pointer-events-none shadow-sm flex items-center justify-center gap-2"
+            className="w-full flex items-center justify-center gap-2 bg-[#5A2E25] text-white font-medium py-4 rounded-2xl hover:bg-[#B5543A] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
             {isProcessing ? (
               <>
-                <span className="h-2 w-2 rounded-full bg-[#FAF8F5] animate-ping" />
-                Scanning Bitstream Delimiters...
+                <span className="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Decrypting Payload...
               </>
             ) : (
-              "Extract Hidden Payload"
+              "Extract & Decrypt Payload"
             )}
           </button>
 
           {/* Decoded Output Box */}
           {decodedMessage && (
-            <div className="mt-10 pt-8 border-t border-[#5A2E25]/15 flex flex-col">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#6F7F5F]">
+            <div className="mt-8 pt-6 border-t border-[#5A2E25]/10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-semibold text-[#5A2E25]">
                   Payload Extracted Successfully
                 </span>
                 <button
                   onClick={handleCopy}
-                  className="text-[11px] font-bold uppercase tracking-wider text-[#B5543A] hover:underline"
+                  className="text-xs font-mono text-[#B5543A] hover:underline"
                 >
                   {copied ? "Copied to Clipboard!" : "Copy Payload"}
                 </button>
               </div>
-
-              <div className="p-5 bg-[#FAF8F5] rounded-2xl border border-[#5A2E25]/15 font-mono text-xs text-[#5A2E25] whitespace-pre-wrap break-words leading-relaxed shadow-inner">
+              <div className="bg-[#FAF8F5] border border-[#5A2E25]/15 rounded-2xl p-4 text-sm text-[#5A2E25] whitespace-pre-wrap break-words font-mono">
                 {decodedMessage}
-              </div>
-
-              <div className="mt-6 flex justify-end">
-                <Link
-                  href="/encode"
-                  className="px-6 py-2.5 rounded-full bg-[#F0E6D8] text-[#5A2E25] text-xs font-bold uppercase tracking-wider hover:bg-[#F0E6D8]/80 transition"
-                >
-                  Encode Another Message
-                </Link>
               </div>
             </div>
           )}
 
+        </div>
+
+        <div className="text-center mt-6">
+          <Link
+            href="/encode"
+            className="text-xs font-mono text-[#5A2E25]/60 hover:text-[#B5543A] transition-colors"
+          >
+            Encode Another Message
+          </Link>
         </div>
 
       </div>
@@ -223,10 +244,7 @@ export default function Decode() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
-          <div className="flex items-center gap-3 text-xs uppercase tracking-widest font-bold text-[#6F7F5F]">
-            <span className="h-2 w-2 rounded-full bg-[#6F7F5F] animate-ping" />
-            Initializing Workspace...
-          </div>
+          <p className="text-sm font-mono text-[#5A2E25]/60">Initializing Workspace...</p>
         </div>
       }
     >
